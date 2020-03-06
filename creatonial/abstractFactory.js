@@ -1,23 +1,54 @@
-function Car() { this.name = "Car"; this.wheels = 4; }
-function Truck() { this.name = "Truck"; this.wheels = 6; }
-function Bike() { this.name = "Bike"; this.wheels = 2; }
-
-const vehicleFactory = {
-    createVehicle: function (type) {
-        switch (type.toLowerCase()) {
-            case "car":
-                return new Car();
-            case "truck":
-                return new Truck();
-            case "bike":
-                return new Bike();
-            default:
-                return null;
-        }
+function Employee(name) {
+    this.name = name;
+    this.say = function () {
+        log.add("I am employee " + name);
+    };
+}
+ 
+function EmployeeFactory() {
+    this.create = function(name) {
+        return new Employee(name);
+    };
+}
+ 
+function Vendor(name) {
+    this.name = name;
+ 
+    this.say = function () {
+        log.add("I am vendor " + name);
+    };
+}
+ 
+function VendorFactory() {
+ 
+    this.create = function(name) {
+        return new Vendor(name);
+    };
+}
+ 
+// log helper
+var log = (function () {
+    var log = "";
+ 
+    return {
+        add: function (msg) { log += msg + "\n"; },
+        show: function () { alert(log); log = ""; }
     }
-};
-
-const car = vehicleFactory.createVehicle("Car"); // Car { name: "Car", wheels: 4 }  
-const truck = vehicleFactory.createVehicle("Truck"); // Truck { name: "Truck", wheels: 6 }  
-const bike = vehicleFactory.createVehicle("Bike"); // Bike { name: "Bike", wheels: 2 }  
-const unknown = vehicleFactory.createVehicle("Boat"); // null ( Vehicle not known )
+})();
+ 
+function run() {
+    var persons = [];
+    var employeeFactory = new EmployeeFactory();
+    var vendorFactory = new VendorFactory();
+ 
+    persons.push(employeeFactory.create("Joan DiSilva"));
+    persons.push(employeeFactory.create("Tim O'Neill"));
+    persons.push(vendorFactory.create("Gerald Watson"));
+    persons.push(vendorFactory.create("Nicole McNight"));
+ 
+    for (var i = 0, len = persons.length; i < len; i++) {
+        persons[i].say();
+    }
+ 
+    log.show();
+}
